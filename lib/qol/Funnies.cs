@@ -1,4 +1,4 @@
-using static Libraries.GetValidateLog;
+using Libraries;
 
 namespace Libraries;
 
@@ -40,7 +40,7 @@ public class Funnies
             
         };
 
-        PhraseMsg(phrases[GetRandom(0, phrases.Length)]);
+        PhraseMsg(phrases[Get.GetRandom(0, phrases.Length)]);
     }
     
 }

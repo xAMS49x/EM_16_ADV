@@ -1,5 +1,4 @@
-using System;
-using static Libraries.GetValidateLog;
+
 
 namespace Libraries;
 
@@ -60,17 +59,25 @@ public class TaskSpecific
     
     public static void ColoredValue(string msg, dynamic value, ConsoleColor color = ConsoleColor.Green)
     {
-        Log(msg);
+        Logger.Log(msg);
         Console.ForegroundColor = color;
-        Log(value + "\n");
+        Logger.Log(value + "\n");
         Console.ResetColor();
     }
     
     public static void ColoredFloat(string msg, float value, ConsoleColor color = ConsoleColor.Green)
     {
-        Log(msg);
+        Logger.Log(msg);
         Console.ForegroundColor = color;
-        Log(value + "\n");
+        Logger.Log(value + "\n");
+        Console.ResetColor();
+    }
+    
+    public static void ColoredMoney(string msg, float value, string moneySymbol = "₴", ConsoleColor color = ConsoleColor.Green)
+    {
+        Logger.Log(msg);
+        Console.ForegroundColor = color;
+        Logger.Log(value + moneySymbol + "\n");
         Console.ResetColor();
     }
 
@@ -87,12 +94,12 @@ public class TaskSpecific
     public static void RepeatFunctionBlock()
     {
         if (Console.ReadKey().Key != ConsoleKey.Y) return;
-        LogLine("\n");
+        Logger.LogLine("\n");
     }
 
     public static void PressAnyKeyToContinue()
     {
-        LogLine("\nPress any key to continue...");
+        Logger.LogLine("\nPress any key to continue...");
         Console.ReadKey();
         Console.Clear();
     }
