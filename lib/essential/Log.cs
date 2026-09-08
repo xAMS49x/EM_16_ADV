@@ -35,8 +35,8 @@ public class Logger
         log.AppendLine($"\nProcess finished with exit code {exitCode}");
 
         
-        string logDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "logs"));
         string fileName = $"log_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
+        string logDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "logs"));
         string path = Path.Combine(logDirectory, fileName);
 
         File.WriteAllText(path, log.ToString());
