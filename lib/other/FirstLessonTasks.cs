@@ -78,15 +78,15 @@ public class FirstLessonTasks
                 discount = +0.05f;
         }
 
-        TaskSpecific.ColoredFloat("Total price: ", price);
+        TaskSpecific.ColoredMoney("Total price: ", price);
         cashback = price * cashback;
         discount = price * discount;
         price -= discount;
         price -= cashback;
         TaskSpecific.ColoredValue("Has reward card: ", hasCard);
-        TaskSpecific.ColoredFloat("Discount: -", discount);
-        TaskSpecific.ColoredFloat("Cashback: -", cashback);
-        TaskSpecific.ColoredFloat("Price with discounts: ", price);
+        TaskSpecific.ColoredMoney("Discount: -", discount);
+        TaskSpecific.ColoredMoney("Cashback: +", cashback);
+        TaskSpecific.ColoredMoney("Price with discounts: ", price);
     }
 
     public static void ElectricityBill()

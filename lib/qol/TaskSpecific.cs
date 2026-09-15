@@ -4,26 +4,26 @@ namespace Libraries;
 
 public class TaskSpecific
 {
-    // public static int[] GetArray()
-    // {
-    //     var size = GetInt("Enter the size of the array: ");
-    //     var min = GetInt("Enter the min number value for the number generation: ");
-    //     var max = GetInt("Enter the max number value for the number generation:\n");
-    //
-    //     if (size <= 0)
-    //         throw new ArgumentException("Array size must be greater than zero!");
-    //
-    //     if (min > max)
-    //         throw new ArgumentException("Min value must be less than max value!");
-    //         
-    //     int[] array = new int[size];
-    //     for (int i = 0; i < size; i++)
-    //     {
-    //         array[i] = GetRandom(min, max + 1);
-    //     }
-    //         
-    //     return array;
-    // }
+    public static int[] GetArray()
+    {
+        var size = Get.GetInt("Enter the size of the array: ");
+        var min = Get.GetInt("Enter the min number value for the number generation: ");
+        var max = Get.GetInt("Enter the max number value for the number generation:\n");
+    
+        if (size <= 0)
+            throw new ArgumentException("Array size must be greater than zero!");
+    
+        if (min > max)
+            throw new ArgumentException("Min value must be less than max value!");
+            
+        int[] array = new int[size];
+        for (int i = 0; i < size; i++)
+        {
+            array[i] = Get.GetRandom(min, max + 1);
+        }
+            
+        return array;
+    }
     
     // public static int CoinFlip()
     // {
@@ -59,17 +59,10 @@ public class TaskSpecific
     
     public static void ColoredValue(string msg, dynamic value, ConsoleColor color = ConsoleColor.Green)
     {
+        string textValue = Convert.ToString(value);
         Logger.Log(msg);
         Console.ForegroundColor = color;
-        Logger.Log(value + "\n");
-        Console.ResetColor();
-    }
-    
-    public static void ColoredFloat(string msg, float value, ConsoleColor color = ConsoleColor.Green)
-    {
-        Logger.Log(msg);
-        Console.ForegroundColor = color;
-        Logger.Log(value + "\n");
+        Logger.Log(textValue + "\n");
         Console.ResetColor();
     }
     
