@@ -12,60 +12,67 @@ namespace Homework5
             byte phoneBookChoice = TaskHelper.GetTaskChoice(
                 "Phonebook Menu:\n\t1. Add contact\n\t2. Edit contact\n\t3. Delete contact\n\t4. Search contacts\n\t5. Show full contact list");
 
-
-            while (true)
+            try
             {
-                switch (phoneBookChoice)
-
+                while (true)
                 {
-                    case 1:
-                        string number = Get.GetString("Enter the number to add:");
-                        string name = Get.GetString("Enter the name:");
-                        if (newPhoneBook.CreateEntry(name, number))
-                            ConsoleHelper.WriteLine("Added new entry successfully.");
-                        else
-                            throw new ApplicationException("Failed to create new entry.");
-                        break;
+                    switch (phoneBookChoice)
 
-                    case 2:
-                        string oldName = Get.GetString("Enter the name you want to change:");
-                        string newName = Get.GetString("Enter new name for the contact:");
-                        if (newPhoneBook.UpdateEntry(oldName, newName))
-                            ConsoleHelper.WriteLine("Updated the entry successfully.");
-                        else
-                            throw new ApplicationException("Failed to update the entry.");
-                        break;
+                    {
+                        case 1:
+                            string number = Get.GetString("Enter the number to add:");
+                            string name = Get.GetString("Enter the name:");
+                            if (newPhoneBook.CreateEntry(name, number))
+                                ConsoleHelper.WriteLine("Added new entry successfully.");
+                            else
+                                throw new ApplicationException("Failed to create new entry.");
+                            break;
 
-                    case 3:
-                        string entry = Get.GetString("Enter the name you want to delete:");
-                        if (newPhoneBook.DeleteEntry(entry))
-                            ConsoleHelper.WriteLine("Deleted the entry successfully.");
-                        else
-                            ConsoleHelper.WriteLine("Failed to delete the entry.");
+                        case 2:
+                            string oldName = Get.GetString("Enter the name you want to change:");
+                            string newName = Get.GetString("Enter new name for the contact:");
+                            if (newPhoneBook.UpdateEntry(oldName, newName))
+                                ConsoleHelper.WriteLine("Updated the entry successfully.");
+                            else
+                                throw new ApplicationException("Failed to update the entry.");
+                            break;
 
-                        break;
+                        case 3:
+                            string entry = Get.GetString("Enter the name you want to delete:");
+                            if (newPhoneBook.DeleteEntry(entry))
+                                ConsoleHelper.WriteLine("Deleted the entry successfully.");
+                            else
+                                ConsoleHelper.WriteLine("Failed to delete the entry.");
 
-                    case 4:
-                        string query = newPhoneBook.GetEntry("Search contacts:");
-                        ConsoleHelper.WriteLine("Search results: " + query);
+                            break;
 
-                        break;
+                        case 4:
+                            string query = newPhoneBook.GetEntry("Search contacts:");
+                            ConsoleHelper.WriteLine("Search results: " + query);
 
-                    case 5:
-                        ConsoleHelper.WriteLine("--- All entries ---");
-                        newPhoneBook.GetAllEntries();
+                            break;
 
-                        break;
+                        case 5:
+                            ConsoleHelper.WriteLine("--- All entries ---");
+                            newPhoneBook.GetAllEntries();
 
-                    case 0:
-                        return;
+                            break;
 
-                    default:
-                        throw new ApplicationException("Unknown exception occured.");
+                        case 0:
+                            return;
+
+                        default:
+                            throw new ApplicationException("Unknown exception occured.");
+                    }
+
+                    phoneBookChoice = TaskHelper.GetTaskChoice(
+                        "Phonebook Menu:\n\t1. Add contact\n\t2. Edit contact\n\t3. Delete contact\n\t4. Search contacts\n\t5. Show full contact list");
                 }
-
-                phoneBookChoice = TaskHelper.GetTaskChoice(
-                    "Phonebook Menu:\n\t1. Add contact\n\t2. Edit contact\n\t3. Delete contact\n\t4. Search contacts\n\t5. Show full contact list");
+            }
+            catch (Exception ex)
+            {
+                ConsoleHelper.WriteLine(ex.Message);
+                FileLogger.SaveLog(1);
             }
         }
     }
