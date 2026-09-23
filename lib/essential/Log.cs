@@ -2,44 +2,31 @@ using System.Text;
 
 namespace Libraries;
 
-public class Logger
+public static class FileLogger
 {
-    public static StringBuilder log = new StringBuilder();
-
-    public static void LogLine(string message)
-    {
-        Console.WriteLine(message);
-        log.AppendLine("<program>: " + message);
-    }
+    private static readonly StringBuilder _logBuffer = new();
 
     public static void Log(string message)
     {
-        Console.Write(message);
-        log.Append(message);
+        _logBuffer.Append(message);
     }
 
-    public static string Ask(string prompt)
+    public static void LogLine(string message)
     {
-        Console.WriteLine(prompt);
-        log.Append($"<program>: {prompt}");
-
-        string input = Console.ReadLine()!;
-        log.AppendLine();
-        log.AppendLine($"<user>: {input}");
-
-        return input;
+        _logBuffer.AppendLine(message);
     }
 
     public static void SaveLog(int exitCode = 0)
     {
-        log.AppendLine($"\nProcess finished with exit code {exitCode}");
+        _logBuffer.AppendLine($"\nProcess finished with exit code {exitCode}");
 
-        
         string fileName = $"log_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
         string logDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "logs"));
+        Directory.CreateDirectory(logDirectory);
         string path = Path.Combine(logDirectory, fileName);
+        
+        File.WriteAllText(path, _logBuffer.ToString());
 
-        File.WriteAllText(path, log.ToString());
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine($"\nLog saved to: {path}");
         Console.ResetColor();
