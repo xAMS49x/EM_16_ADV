@@ -1,43 +1,72 @@
 ﻿using Libraries;
-using Tasks;
+using promotionAssignment.Classes;
 
-namespace promotionAssignment;
-
-internal class Program
+namespace Homework5
 {
-    static void Main(string[] args)
+    internal class Program
     {
-        Funnies.FunnyPhrase();
-        
-        var choice = Get.GetBytes("Welcome back. Choose the task (1-3)\n\t1. Fitness Tracker\n\t2. Shop Checkout\n\t3. Electricity Bills\n\t0. Exit");
-        if (!Validate.ValidateRange(choice, 0, 3))
+        static void Main()
         {
-            throw new ApplicationException("No such task.");
+            PhoneBook newPhoneBook = new PhoneBook();
+            ConsoleHelper.WriteLine("Welcome! Phonebook v1.1 is running.");
+            byte phoneBookChoice = TaskHelper.GetTaskChoice(
+                "Phonebook Menu:\n\t1. Add contact\n\t2. Edit contact\n\t3. Delete contact\n\t4. Search contacts\n\t5. Show full contact list");
+
+
+            while (true)
+            {
+                switch (phoneBookChoice)
+
+                {
+                    case 1:
+                        string number = Get.GetString("Enter the number to add:");
+                        string name = Get.GetString("Enter the name:");
+                        if (newPhoneBook.CreateEntry(name, number))
+                            ConsoleHelper.WriteLine("Added new entry successfully.");
+                        else
+                            throw new ApplicationException("Failed to create new entry.");
+                        break;
+
+                    case 2:
+                        string oldName = Get.GetString("Enter the name you want to change:");
+                        string newName = Get.GetString("Enter new name for the contact:");
+                        if (newPhoneBook.UpdateEntry(oldName, newName))
+                            ConsoleHelper.WriteLine("Updated the entry successfully.");
+                        else
+                            throw new ApplicationException("Failed to update the entry.");
+                        break;
+
+                    case 3:
+                        string entry = Get.GetString("Enter the name you want to delete:");
+                        if (newPhoneBook.DeleteEntry(entry))
+                            ConsoleHelper.WriteLine("Deleted the entry successfully.");
+                        else
+                            ConsoleHelper.WriteLine("Failed to delete the entry.");
+
+                        break;
+
+                    case 4:
+                        string query = newPhoneBook.GetEntry("Search contacts:");
+                        ConsoleHelper.WriteLine("Search results: " + query);
+
+                        break;
+
+                    case 5:
+                        ConsoleHelper.WriteLine("--- All entries ---");
+                        newPhoneBook.GetAllEntries();
+
+                        break;
+
+                    case 0:
+                        return;
+
+                    default:
+                        throw new ApplicationException("Unknown exception occured.");
+                }
+
+                phoneBookChoice = TaskHelper.GetTaskChoice(
+                    "Phonebook Menu:\n\t1. Add contact\n\t2. Edit contact\n\t3. Delete contact\n\t4. Search contacts\n\t5. Show full contact list");
+            }
         }
-
-        switch (choice)
-        {
-            case 0:
-                break;
-            // Task №1
-            case 1:
-                FirstLessonTasks.FitnessTracker();
-                break;
-
-            // Task №2
-            case 2:
-                FirstLessonTasks.TechShopCheckout();
-                break;
-
-            // Task №3
-            case 3:
-                FirstLessonTasks.ElectricityBill();
-                break;
-            
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        Logger.SaveLog(0);
     }
 }

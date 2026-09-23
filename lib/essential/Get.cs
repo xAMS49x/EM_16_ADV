@@ -1,40 +1,62 @@
 namespace Libraries;
 
-public class Get
+public static class Get
 {
-    public static string GetString(string msg)
-    {
-        return Logger.Ask(msg) ?? throw new InvalidOperationException();
-    }
+    private static readonly Random _random = new();
 
-    public static int GetInt(string msg)
-    {
-        return Convert.ToInt32(GetString(msg));
-    }
+    private delegate bool TryParseDelegate<T>(string input, out T result);
 
-    public static double GetDouble(string msg)
+    private static string _errorMessage = "An error occured: please enter a valid value.";
+    
+    private static T GetValue<T>(string msg, TryParseDelegate<T> tryParse, bool shouldLog = true)
     {
-        return Convert.ToDouble(GetString(msg));
-    }
-
-    public static short GetShort(string msg)
-    {
-        return Convert.ToInt16(GetString(msg));
-    }
-
-    public static byte GetBytes(string msg)
-    {
-        return Convert.ToByte(GetString(msg));
-    }
-
-    public static float GetFloat(string msg)
-    {
-        return Convert.ToSingle(GetString(msg));
-    }
+        string errorMessage = _errorMessage;
         
+        while (true)
+        {
+            string input = GetString(msg, shouldLog);
+
+            if (tryParse(input, out T result))
+            {
+                return result;
+            }
+
+            throw new ApplicationException(errorMessage);
+        }
+    }
+    
+    public static string GetString(string msg, bool shouldLog = true)
+    {
+        return ConsoleHelper.Ask(msg, shouldLog);
+    }
+
+    public static int GetInt(string msg, bool shouldLog = true)
+    {
+        return GetValue<int>(msg, int.TryParse, shouldLog);
+    }
+
+    public static double GetDouble(string msg, bool shouldLog = true)
+    {
+        return GetValue<double>(msg, double.TryParse, shouldLog);
+    }
+
+    public static short GetShort(string msg, bool shouldLog = true)
+    {
+        return GetValue<short>(msg, short.TryParse, shouldLog);
+    }
+
+    public static byte GetBytes(string msg, bool shouldLog = true) // Перейменовано з GetBytes на GetByte, оскільки повертається один byte
+    {
+        return GetValue<byte>(msg, byte.TryParse, shouldLog);
+    }
+
+    public static float GetFloat(string msg, bool shouldLog = true)
+    {
+        return GetValue<float>(msg, float.TryParse, shouldLog);
+    }
+
     public static int GetRandom(int min, int max)
     {
-        var random = new Random();
-        return random.Next(min, max);
+        return _random.Next(min, max);
     }
 }

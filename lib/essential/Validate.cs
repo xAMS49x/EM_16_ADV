@@ -2,14 +2,14 @@ namespace Libraries;
 
 public class Validate
 {
-    public static bool ValidateStringLength(string text, int minLength, int maxLength)
+    public static bool ValidateStringLength(string text, int maxLength, int minLength = 0)
     {
-        if (text.Trim().Length < minLength || text.Trim().Length > maxLength)
-        {
-            return true;
-        }
+        return text.Trim().Length < minLength || text.Trim().Length > maxLength;
+    }
 
-        return false;
+    public static bool ValidateEmptyString(string text)
+    {
+        return text.Length <= 0;
     }
 
     public static bool IsZeroOrNegative(dynamic value)

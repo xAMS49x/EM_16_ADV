@@ -4,26 +4,6 @@ namespace Libraries;
 
 public class TaskSpecific
 {
-    public static int[] GetArray()
-    {
-        var size = Get.GetInt("Enter the size of the array: ");
-        var min = Get.GetInt("Enter the min number value for the number generation: ");
-        var max = Get.GetInt("Enter the max number value for the number generation:\n");
-    
-        if (size <= 0)
-            throw new ArgumentException("Array size must be greater than zero!");
-    
-        if (min > max)
-            throw new ArgumentException("Min value must be less than max value!");
-            
-        int[] array = new int[size];
-        for (int i = 0; i < size; i++)
-        {
-            array[i] = Get.GetRandom(min, max + 1);
-        }
-            
-        return array;
-    }
     
     // public static int CoinFlip()
     // {
@@ -57,20 +37,20 @@ public class TaskSpecific
     // }
 
     
-    public static void ColoredValue(string msg, dynamic value, ConsoleColor color = ConsoleColor.Green)
+    public static void ColoredValue<T>(string msg, T value, ConsoleColor color = ConsoleColor.Green)
     {
         string textValue = Convert.ToString(value);
-        Logger.Log(msg);
+        ConsoleHelper.Write(msg);
         Console.ForegroundColor = color;
-        Logger.Log(textValue + "\n");
+        ConsoleHelper.Write(textValue + "\n");
         Console.ResetColor();
     }
     
-    public static void ColoredMoney(string msg, float value, string moneySymbol = "₴", ConsoleColor color = ConsoleColor.Green)
+    public static void ColoredMoney<T>(string msg, T value, string moneySymbol = "₴", ConsoleColor color = ConsoleColor.Green)
     {
-        Logger.Log(msg);
+        ConsoleHelper.Write(msg);
         Console.ForegroundColor = color;
-        Logger.Log(value + moneySymbol + "\n");
+        ConsoleHelper.Write(value + moneySymbol + "\n");
         Console.ResetColor();
     }
 
@@ -87,15 +67,13 @@ public class TaskSpecific
     public static void RepeatFunctionBlock()
     {
         if (Console.ReadKey().Key != ConsoleKey.Y) return;
-        Logger.LogLine("\n");
+        ConsoleHelper.Write("\n");
     }
 
     public static void PressAnyKeyToContinue()
     {
-        Logger.LogLine("\nPress any key to continue...");
+        ConsoleHelper.WriteLine("\nPress any key to continue...");
         Console.ReadKey();
         Console.Clear();
     }
-    
-    
 }
